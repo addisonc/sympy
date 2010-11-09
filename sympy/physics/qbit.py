@@ -13,6 +13,7 @@ from sympy.physics.qadd import QAdd
 from sympy.physics.qpow import QPow
 from sympy.physics.quantumbasic import QuantumError
 import math
+from sympy.functions.elementary.trigonometric import sin, cos
 
 #-----------------------------------------------------------------------------
 # BasisSets for Qbit
@@ -182,9 +183,6 @@ class Qbit(Ket):
 
     def _represent_QbitZBasisSet(self, basis, **options):
         #make sure hilbert_sizes of basis and qbit match
-        if basis.hilbert_space != l2(2)**self.dimension:
-            raise HilbertSpaceException("Basis and Qbit\
-            dimensions do not match!")
         n = 1
         definiteState = 0
         args = self.args
@@ -750,6 +748,15 @@ class ToffoliGate(Gate):
         return Matrix([[1,0,0,0,0,0,0,0],[0,1,0,0,0,0,0,0],[0,0,1,0,0,0,0,0],\
         [0,0,0,1,0,0,0,0],[0,0,0,0,1,0,0,0],[0,0,0,0,0,1,0,0],[0,0,0,0,0,0,0,1]\
         ,[0,0,0,0,0,0,1,0]])
+
+class ZRotation(Gate):
+    """
+    Apparently this gate is important?
+    """
+    @property
+    def matrix(self):
+        phi = Symbol('phi')
+        return Matrix([[cos(phi/2)+ImaginaryUnit()*sin(phi/2), 0],[0, cos(phi/2)-ImaginaryUnit()*sin(phi/2)]])
 
 #-----------------------------------------------------------------------------
 # Fourier stuff
