@@ -20,7 +20,6 @@ pprint(state)
 
 #This operator will entangle bits 1 and 2
 Entangle1_2 = CNOT(1,2)*HadamardGate(1)
-circuit_plot(Entangle1_2, nqubits=3)
 state = apply_operators(Entangle1_2*state)
 pprint(state)
 
@@ -28,7 +27,7 @@ pprint(state)
 
 #Now, some time later, Alics entangles Qubit 1 and Qubit 0 
 Entangle0_1 = HadamardGate(0)*CNOT(0,1)
-circuit_plot(Entangle0_1, nqubits=3)
+circuit_plot(Entangle0_1*Entangle1_2, nqubits=3)
 state = apply_operators(Entangle0_1*state)
 pprint(state)
 
