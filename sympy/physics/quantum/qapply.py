@@ -14,6 +14,7 @@ from sympy.physics.quantum.innerproduct import InnerProduct
 from sympy.physics.quantum.operator import OuterProduct
 from sympy.physics.quantum.state import KetBase, BraBase
 from sympy.physics.quantum.tensorproduct import TensorProduct
+from sympy.physics.quantum.densityOp import Density
 
 
 __all__ = [
@@ -89,7 +90,11 @@ def qapply(e, **options):
             return Dagger(qapply_Mul(Dagger(e), **options))
         else:
             return result
-
+    
+    #If we have a density operator, call it's apply method
+    elif isinstance(e, Density):
+        return e._apply_density(**options)
+        
     # In all other cases (State, Operator, Pow, Commutator, InnerProduct,
     # OuterProduct) we won't ever have operators to apply to kets.
     else:
